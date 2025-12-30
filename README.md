@@ -62,6 +62,14 @@ La aplicación es completamente **responsiva** y accesible desde cualquier dispo
 
 ---
 
+### f) Carga de información mediante archivos `.xlsx`
+- Módulo de carga masiva de información
+- Lectura de archivos `.xlsx`
+- Validación de datos
+- Inserción directa a la base de datos
+- Soporte para información básica y financiera del paciente
+
+
 ## 🔌 Conexión con Supabase
 
 La conexión a la base de datos se realiza mediante Supabase, configurado a través de variables de entorno.
@@ -72,10 +80,7 @@ La conexión a la base de datos se realiza mediante Supabase, configurado a trav
 // src/lib/supabase.js
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabaseUrl = 'https://ongdfwxtpajtnemwocdh.supabase.co'
+const supabaseAnonKey = 'sb_publishable_Q933oVS43cO5GJPlatSN_A_MMot0WJ3'
 
-export const supabase = createClient(
-  supabaseUrl,
-  supabaseAnonKey
-)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
-import Oso from './assets/icoBear.png'
+import Oso from '../assets/icoBear.png'
 
 function Home() {
   const [stats, setStats] = useState({
