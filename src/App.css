@@ -224,16 +224,20 @@ table {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-th, td {
+table td {
   padding: 1rem;
   text-align: left;
   border-bottom: 1px solid #ecf0f1;
   color: #111827 !important;
+  background-color: transparent;
 }
 
-th {
-  background: #E40046;
-  color: white;
+table th {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+  background-color: #E40046;
+  color: #ffffff !important;
   font-weight: 600;
 }
 
