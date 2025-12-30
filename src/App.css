@@ -220,6 +220,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   background: white;
+  color: #111827; 
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
@@ -227,6 +228,7 @@ th, td {
   padding: 1rem;
   text-align: left;
   border-bottom: 1px solid #ecf0f1;
+  color: #111827 !important;
 }
 
 th {
