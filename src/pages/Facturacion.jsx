@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
+import * as XLSX from 'xlsx'
 
 function Facturacion() {
   const [formData, setFormData] = useState({
@@ -115,10 +116,159 @@ function Facturacion() {
     }
   }
 
+  const handleDownloadTemplate = () => {
+  const headers = [[
+    'paciente_identificacion',
+    'codigo_cups',
+    'fecha_servicio',
+    'cantidad',
+    'valor_unitario',
+    'descuento',
+    'estado',
+    'observaciones'
+  ]]
+
+  const ws = XLSX.utils.aoa_to_sheet(headers)
+  const wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, ws, 'Plantilla_Facturacion')
+
+  XLSX.writeFile(wb, 'plantilla_facturacion.xlsx')
+}
+
+const handleImportExcel = async (event) => {
+  const file = event.target.files?.[0]
+  if (!file) return
+
+  setLoading(true)
+  setMensaje({ tipo: '', texto: '' })
+
+  try {
+    const buffer = await file.arrayBuffer()
+    const wb = XLSX.read(buffer, { type: 'array' })
+    const sheet = wb.Sheets[wb.SheetNames[0]]
+    const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' })
+
+    if (!rows.length) throw new Error('El archivo está vacío')
+
+    const payload = []
+
+    for (const row of rows) {
+      const { data: paciente } = await supabase
+        .from('pacientes')
+        .select('id')
+        .eq('numero_identificacion', String(row.paciente_identificacion))
+        .single()
+
+      const { data: proc } = await supabase
+        .from('procedimientos_cups')
+        .select('id')
+        .eq('codigo_cups', String(row.codigo_cups))
+        .single()
+
+      if (!paciente || !proc) continue
+
+      payload.push({
+        paciente_id: paciente.id,
+        procedimiento_id: proc.id,
+        fecha_servicio: row.fecha_servicio,
+        cantidad: parseInt(row.cantidad || 1, 10),
+        valor_unitario: parseFloat(row.valor_unitario || 0),
+        descuento: parseFloat(row.descuento || 0),
+        estado: row.estado || 'pendiente',
+        observaciones: row.observaciones || ''
+      })
+    }
+
+    if (!payload.length) throw new Error('No se encontraron filas válidas')
+
+    const { error } = await supabase
+      .from('servicios_prestados')
+      .insert(payload)
+
+    if (error) throw error
+
+    setMensaje({
+      tipo: 'success',
+      texto: `Servicios importados correctamente (${payload.length})`
+    })
+
+    cargarDatos()
+  } catch (error) {
+    console.error(error)
+    setMensaje({
+      tipo: 'error',
+      texto: error.message || 'Error al importar servicios'
+    })
+  } finally {
+    setLoading(false)
+    event.target.value = ''
+  }
+}
+
+const handleExportExcel = async () => {
+  setLoading(true)
+  setMensaje({ tipo: '', texto: '' })
+
+  try {
+    const { data, error } = await supabase
+      .from('vista_detalle_servicios')
+      .select('*')
+      .order('fecha_servicio', { ascending: false })
+
+    if (error) throw error
+    if (!data?.length) throw new Error('No hay datos para exportar')
+
+    const ws = XLSX.utils.json_to_sheet(data)
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'Servicios')
+
+    XLSX.writeFile(wb, 'servicios_facturados.xlsx')
+  } catch (error) {
+    console.error(error)
+    setMensaje({ tipo: 'error', texto: error.message })
+  } finally {
+    setLoading(false)
+  }
+}
+
   return (
     <div>
-      <div className="form-container">
-        <h2>Registro de Servicios / Facturacion</h2>
+        <div className="form-container">
+  {/* Header */}
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: '1rem',
+      flexWrap: 'wrap',
+      marginBottom: '1rem'
+    }}
+  >
+    <h2 style={{ margin: 0 }}>Registro de Servicios / Facturación</h2>
+
+    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+      <button type="button" className="btn" onClick={handleDownloadTemplate} disabled={loading}>
+        Descargar Plantilla
+      </button>
+
+      <label className="btn" style={{ cursor: 'pointer' }}>
+        Importar Excel
+        <input
+          type="file"
+          accept=".xlsx,.xls"
+          hidden
+          onChange={handleImportExcel}
+          disabled={loading}
+        />
+      </label>
+
+      <button type="button" className="btn" onClick={handleExportExcel} disabled={loading}>
+        Exportar Excel
+      </button>
+    </div>
+  </div>
+        
 
         {mensaje.texto && (
           <div className={`alert alert-${mensaje.tipo}`}>

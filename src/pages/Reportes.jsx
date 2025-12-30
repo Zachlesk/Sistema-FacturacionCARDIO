@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
+import * as XLSX from 'xlsx'
 
 import {
   Chart as ChartJS,
@@ -125,12 +126,61 @@ const optionsFacturacionCategoria = {
       }
     }
   }
+
+  
 }
 
+const exportarExcel = () => {
+  const resumen = [
+    { indicador: 'Total Pacientes', valor: stats.totalPacientes },
+    { indicador: 'Total Facturado', valor: stats.totalFacturado },
+    { indicador: 'Servicios Pendientes', valor: stats.serviciosPendientes },
+    { indicador: 'Servicios Pagados', valor: stats.serviciosPagados }
+  ]
+
+  const categorias = facturacionPorCategoria.map((c) => ({
+    categoria: c.categoria || 'Sin Categoria',
+    facturado_total: parseFloat(c.facturado_total || 0)
+  }))
+
+  const procedimientos = topProcedimientos.map((p) => ({
+    codigo_cups: p.codigo_cups,
+    nombre: p.nombre,
+    categoria: p.categoria,
+    veces_realizado: p.veces_realizado,
+    ingresos_generados: parseFloat(p.ingresos_generados || 0)
+  }))
+
+  const wb = XLSX.utils.book_new()
+
+  const wsResumen = XLSX.utils.json_to_sheet(resumen)
+  const wsCategorias = XLSX.utils.json_to_sheet(categorias)
+  const wsProcedimientos = XLSX.utils.json_to_sheet(procedimientos)
+
+  XLSX.utils.book_append_sheet(wb, wsResumen, 'Resumen')
+  XLSX.utils.book_append_sheet(wb, wsCategorias, 'Facturacion_Categoria')
+  XLSX.utils.book_append_sheet(wb, wsProcedimientos, 'Top_Procedimientos')
+
+  XLSX.writeFile(wb, `reporte_${new Date().toISOString().slice(0, 10)}.xlsx`)
+}
 
   return (
     <div>
-      <h2  style={{ marginBottom: '2rem'}}>Reportes y Estadisticas</h2>
+<div
+  style={{
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '2rem'
+  }}
+>
+  <h2 style={{ margin: 0 }}>Reportes y Estadisticas</h2>
+
+  <button className="btn" onClick={exportarExcel} disabled={loading}>
+    Exportar Excel
+    </button>
+    </div>
+      
 
       {/* Stats Cards */}
       <div className="stats-grid">
