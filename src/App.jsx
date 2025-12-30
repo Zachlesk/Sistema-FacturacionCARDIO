@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { HashRouter, Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import RegistroPacientes from './pages/RegistroPacientes'
 import Facturacion from './pages/Facturacion'
@@ -7,7 +7,7 @@ import Home from './pages/Home'
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="app">
         <nav className="navbar">
           <div className="nav-brand">
@@ -37,7 +37,7 @@ function App() {
           <img src="/Corazon.png" alt="Logo" className="nav-logo" />
         </footer>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
