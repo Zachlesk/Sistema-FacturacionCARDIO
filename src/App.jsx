@@ -15,12 +15,12 @@ function App() {
         <nav className="navbar">
           <div className="nav-brand">
               <img src={LogoCardio} alt="Logo" className="nav-logo" />
-            <h1>Sistema Facturacion Medica</h1>
+            <h1>Sistema de Facturación Medica</h1>
           </div>
           <div className="nav-links">
             <Link to="/">Inicio</Link>
             <Link to="/pacientes">Registro Pacientes</Link>
-            <Link to="/facturacion">Facturacion</Link>
+            <Link to="/facturacion">Facturación</Link>
             <Link to="/reportes">Reportes</Link>
           </div>
         </nav>
@@ -35,7 +35,7 @@ function App() {
         </main>
 
         <footer className="footer">
-          <p>Sistema de Facturacion Medica con Codigos CUPS - 2025</p>
+          <p>Sistema de Facturación Medica con Codigos CUPS - 2025</p>
           <p>Desarrollado por Zharick Rojas Ardila </p>
           <img src={Corazon} alt="Logo" className="nav-logo" />
         </footer>

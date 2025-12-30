@@ -253,7 +253,7 @@ const exportarExcel = () => {
 
       {/* Informacion adicional */}
       <div className="alert alert-info">
-        <strong>Nota:</strong> Los reportes se actualizan en tiempo real. Los datos mostrados corresponden a la informacion actual en la base de datos.
+        <strong>Nota:</strong> Los reportes se actualizan en tiempo real. Los datos mostrados corresponden a la información actual en la base de datos.
       </div>
     </div>
   )

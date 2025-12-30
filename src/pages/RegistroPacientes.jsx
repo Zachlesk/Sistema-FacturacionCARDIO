@@ -263,7 +263,7 @@ const handleDownloadTemplate = () => {
             </div>
 
             <div className="form-group">
-              <label>Numero de Identificacion *</label>
+              <label>Numero de Identificación *</label>
               <input
                 type="text"
                 name="numero_identificacion"
@@ -312,7 +312,7 @@ const handleDownloadTemplate = () => {
             </div>
 
             <div className="form-group">
-              <label>Genero</label>
+              <label>Género</label>
               <select name="genero" value={formData.genero} onChange={handleChange}>
                 <option value="">Seleccione...</option>
                 <option value="M">Masculino</option>
@@ -340,12 +340,12 @@ const handleDownloadTemplate = () => {
           {/* Datos de Contacto */}
           <div className="form-row">
             <div className="form-group">
-              <label>Direccion</label>
+              <label>Dirección</label>
               <input type="text" name="direccion" value={formData.direccion} onChange={handleChange} />
             </div>
 
             <div className="form-group">
-              <label>Telefono</label>
+              <label>Teléfono</label>
               <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} />
             </div>
 
@@ -427,7 +427,7 @@ const handleDownloadTemplate = () => {
           <table>
             <thead>
               <tr>
-                <th>Identificacion</th>
+                <th>Identificación</th>
                 <th>Nombre Completo</th>
                 <th>Fecha Nacimiento</th>
                 <th>EPS</th>

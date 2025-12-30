@@ -39,20 +39,20 @@ function Home() {
         loading: false
       })
     } catch (error) {
-      console.error('Error cargando estadisticas:', error)
+      console.error('Error cargando estadísticas:', error)
       setStats(prev => ({ ...prev, loading: false }))
     }
   }
 
   if (stats.loading) {
-    return <div className="loading">Cargando estadisticas...</div>
+    return <div className="loading">Cargando estadísticas...</div>
   }
 
   return (
  <div   className="page-header">
-  <h1>Sistema de Facturacion Medica</h1>
+  <h1>Sistema de Facturación Medica</h1>
   <p>
-    Gestion de pacientes y facturacion con codigos CUPS
+    Gestión de pacientes y facturacion con codigos CUPS
   </p>
 
 
@@ -80,11 +80,12 @@ function Home() {
       <div className="card">
         <h3>Funcionalidades</h3>
         <ul style={{ textAlign: 'left', lineHeight: '2' }}>
-          <li>Registro completo de pacientes con datos basicos, financieros y de contacto</li>
-          <li>Gestion de catalogo de procedimientos medicos con codigos CUPS</li>
-          <li>Facturacion de servicios prestados con calculos automaticos</li>
-          <li>Reportes y estadisticas en tiempo real</li>
-          <li>Interfaz responsiva para cualquier dispositivo</li>
+          <li>Registro completo de pacientes con datos básicos, financieros y de contacto.</li>
+          <li>Gestión de catálogo de procedimientos médicos con códigos CUPS.</li>
+          <li>Facturación de servicios prestados con calculos automáticos.</li>
+          <li>Reportes y estadísticas en tiempo real.</li>
+          <li>Interfaz responsiva para cualquier dispositivo.</li>
+          <li>Importación y exportación de datos.</li>
         </ul>
       </div>
     </div>
