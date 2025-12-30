@@ -5,13 +5,16 @@ import Facturacion from './pages/Facturacion'
 import Reportes from './pages/Reportes'
 import Home from './pages/Home'
 
+import LogoCardio from './assets/LogoCardio.png'
+import Corazon from './assets/Corazon.png'
+
 function App() {
   return (
     <HashRouter>
       <div className="app">
         <nav className="navbar">
           <div className="nav-brand">
-              <img src="/LogoCardio.png" alt="Logo" className="nav-logo" />
+              <img src={LogoCardio} alt="Logo" className="nav-logo" />
             <h1>Sistema Facturacion Medica</h1>
           </div>
           <div className="nav-links">
@@ -34,7 +37,7 @@ function App() {
         <footer className="footer">
           <p>Sistema de Facturacion Medica con Codigos CUPS - 2025</p>
           <p>Desarrollado por Zharick Rojas Ardila </p>
-          <img src="/Corazon.png" alt="Logo" className="nav-logo" />
+          <img src={Corazon} alt="Logo" className="nav-logo" />
         </footer>
       </div>
     </HashRouter>

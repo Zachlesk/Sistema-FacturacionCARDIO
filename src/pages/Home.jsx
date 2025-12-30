@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
+import Oso from './assets/icoBear.png'
+
 function Home() {
   const [stats, setStats] = useState({
     totalPacientes: 0,
@@ -55,7 +57,7 @@ function Home() {
 
 
 <div className="stats-wrapper">
-  <img src="/icoBear.png" alt="Osito" className="stats-bear" />
+  <img src={Oso} alt="Osito" className="stats-bear" />
 
       <div className="stats-grid">
         <div className="stat-card">
