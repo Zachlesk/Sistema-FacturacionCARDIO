@@ -363,7 +363,7 @@ const handleDownloadTemplate = () => {
           {/* Datos Financieros */}
           <div className="form-row">
             <div className="form-group">
-              <label>Regimen de Salud</label>
+              <label>Régimen de Salud</label>
               <select name="regimen_salud" value={formData.regimen_salud} onChange={handleChange}>
                 <option value="">Seleccione...</option>
                 <option value="Contributivo">Contributivo</option>

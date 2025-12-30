@@ -50,9 +50,9 @@ function Home() {
 
   return (
  <div   className="page-header">
-  <h1>Sistema de Facturación Medica</h1>
+  <h1>Sistema de Facturación Médica</h1>
   <p>
-    Gestión de pacientes y facturacion con codigos CUPS
+    Gestión de pacientes y facturación con códigos CUPS
   </p>
 
 
