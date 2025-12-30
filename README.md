@@ -1,16 +1,81 @@
-# React + Vite
+# 🏥 Sistema de Facturación Médica
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web desarrollada como parte de una **Sistema de Facturacion Medica**, cuyo objetivo es permitir el registro, gestión y visualización de información básica, financiera y complementaria de pacientes, cumpliendo con reglas de negocio y generación de reportes.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎯 Objetivo
 
-## React Compiler
+Desarrollar un sistema web que permita almacenar por medio de un formulario web los datos:
+- Básicos
+- Financieros
+- Complementarios
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+De los pacientes, garantizando validaciones, persistencia en base de datos y visualización de la información.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🧾 Descripción General
+
+El sistema permite registrar pacientes, gestionar procedimientos médicos y realizar facturación de servicios, además de generar reportes en formato gráfico y exportable.  
+La aplicación es completamente **responsiva** y accesible desde cualquier dispositivo.
+
+---
+
+## ✅ Cumplimiento de Requerimientos
+
+### a) Formulario web y base de datos
+- Formulario web para el registro de pacientes
+- Validaciones de datos numéricos, fechas y cálculos financieros
+- Almacenamiento en una **base de datos relacional (PostgreSQL)** correctamente normalizada con Supabase
+- Persistencia de datos mediante Supabase
+
+---
+
+### b) Microservicio WS
+- Implementación de un microservicio a través de Supabase
+- Consulta de los datos principales del paciente registrado
+- Retorno de información en formato JSON
+- Consumo del servicio desde el frontend mediante llamadas asíncronas
+
+---
+
+### c) Diseño responsivo
+- Interfaz adaptable a:
+  - PC
+  - Celular
+- Diseño flexible usando CSS y componentes React
+- Correcta visualización en distintos tamaños de pantalla
+
+---
+
+### d) Módulo visor de libros
+- Acceso fácil al contenido cargado en el sistema
+
+---
+
+### e) Módulo de reportes
+- Visualización de reportes en tablas
+- Generación de gráficas dinámicas (barras)
+- Exportación de información a formato **Excel**
+- Reportes basados en los datos ingresados al sistema
+
+---
+
+## 🔌 Conexión con Supabase
+
+La conexión a la base de datos se realiza mediante Supabase, configurado a través de variables de entorno.
+
+### Archivo de conexión
+
+```js
+// src/lib/supabase.js
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+export const supabase = createClient(
+  supabaseUrl,
+  supabaseAnonKey
+)
