@@ -54,30 +54,54 @@ function Facturacion() {
     }
   }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+const handleChange = (e) => {
+  const { name, value } = e.target
 
-    // Si cambia el procedimiento, actualizar el valor unitario
-    if (name === 'procedimiento_id') {
-      const proc = procedimientos.find(p => p.id === value)
-      if (proc) {
-        setFormData(prev => ({ ...prev, valor_unitario: proc.valor_base }))
-      }
-    }
+  if (name === 'descuento') {
+    const num = parseFloat(value)
+
+    setFormData(prev => ({
+      ...prev,
+      descuento: isNaN(num)
+        ? 0
+        : Math.min(Math.max(num, 0), 100) // 👈 fuerza 0–100
+    }))
+    return
   }
 
+  setFormData(prev => ({ ...prev, [name]: value }))
+
+  if (name === 'procedimiento_id') {
+    const proc = procedimientos.find(p => p.id === value)
+    if (proc) {
+      setFormData(prev => ({ ...prev, valor_unitario: proc.valor_base }))
+    }
+  }
+}
+
   const calcularTotal = () => {
-    const { cantidad, valor_unitario, descuento } = formData
-    const subtotal = cantidad * valor_unitario
-    const valorDescuento = subtotal * (descuento / 100)
-    return subtotal - valorDescuento
+  const cantidad = Math.max(0, Number(formData.cantidad) || 0)
+  const valorUnitario = Math.max(0, Number(formData.valor_unitario) || 0)
+
+  const descuento = Math.min(
+    Math.max(Number(formData.descuento) || 0, 0),
+    100
+  )
+
+  const subtotal = cantidad * valorUnitario
+  const valorDescuento = subtotal * (descuento / 100)
+
+  return Math.max(subtotal - valorDescuento, 0)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     setMensaje({ tipo: '', texto: '' })
+
+    if (formData.descuento < 0 || formData.descuento > 100) {
+    throw new Error('El descuento debe estar entre 0% y 100%')
+}
 
     try {
       const { data, error } = await supabase
@@ -86,7 +110,7 @@ function Facturacion() {
           ...formData,
           cantidad: parseInt(formData.cantidad),
           valor_unitario: parseFloat(formData.valor_unitario),
-          descuento: parseFloat(formData.descuento)
+          descuento: Math.min(Math.max(parseFloat(formData.descuento), 0), 100)
         }])
         .select()
 
